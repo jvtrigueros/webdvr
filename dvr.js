@@ -1,5 +1,5 @@
-
-var FB_URL = require('./config').FB_URL;
+var config = require('./config');
+var FB_URL = config.FB_URL;
 var Firebase = require('firebase');
 var myRootRef = new Firebase(FB_URL);
 var os = require('os')
@@ -30,7 +30,7 @@ module.exports = {
 
             if (childSnapshot.val() === null) {
                 console.log("Gathering Tuner Scan Results");
-                result = spawn('hdhomerun_config', ["103DA852", "scan", "/tuner0"]);
+                result = spawn(config.hdhomerunCmd, [config.deviceId, "scan", "/tuner0"]);
                 var temp_data = "";
                 result.stdout.on('data', function(data) {
                     temp_data += data;
@@ -125,7 +125,7 @@ module.exports = {
             var aRef = new Firebase(FB_URL);
 
             if (childSnapshot.val() === null) {
-                result = spawn('hdhomerun_config', ["discover"]);
+                result = spawn(config.hdhomerunCmd, ["discover"]);
                 var temp_data = "";
                 result.stdout.on('data', function(data) {
                     temp_data += data;
